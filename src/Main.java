@@ -73,8 +73,9 @@ public class Main {
         List<Vendedor> listaVendedores = new ArrayList<>(vendedores.values());
         listaVendedores.sort((v1, v2) -> Double.compare(v2.getTotalVentas(), v1.getTotalVentas()));
         try (FileWriter writer = new FileWriter(filename)) {
+            writer.write("Nombre Vendedor;TotalVentas\n"); // Cabecera
             for (Vendedor v : listaVendedores) {
-                writer.write(v.getNombre() + ";" + v.getTotalVentas() + "\n");
+                writer.write(v.getNombre() + ";" + v.getTotalVentas() + "\n"); // Datos
             }
         }
     }
@@ -83,8 +84,9 @@ public class Main {
         List<Producto> listaProductos = new ArrayList<>(productos.values());
         listaProductos.sort((p1, p2) -> Integer.compare(p2.getCantidadVendida(), p1.getCantidadVendida()));
         try (FileWriter writer = new FileWriter(filename)) {
+            writer.write("Nombre Producto;CantidadVendida\n"); // Cabecera
             for (Producto p : listaProductos) {
-                writer.write(p.getNombre() + ";" + p.getPrecio() + "\n");
+                writer.write(p.getNombre() + ";" + p.getCantidadVendida() + "\n"); // Datos
             }
         }
     }
