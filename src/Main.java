@@ -5,41 +5,82 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Map<Long, Vendedor> vendedores = leerVendedores("../salesman_info.txt"); // Busca en la carpeta raíz
-            Map<Integer, Producto> productos = leerProductos("../products.txt"); // Busca en la carpeta raíz
+            // Cargar vendedores desde CSV
+            Map<Long, Vendedor> vendedores = leerVendedoresDesdeCSV("./archivos_csv/vendedor.csv"); // Busca en la carpeta raíz
+
+            // Cargar productos desde CSV
+            Map<Integer, Producto> productos = leerProductosDesdeCSV("./archivos_csv/productos.csv"); // Busca en la carpeta raíz
+
+            // Generar archivos de ventas para cada vendedor
+            generarArchivosDeVentas(vendedores, productos);
+
+            // Procesar ventas y generar reportes
             procesarVentas(vendedores, productos);
             generarReporteVendedores(vendedores, "../reporte_vendedores.csv"); // Genera en la carpeta raíz
             generarReporteProductos(productos, "../reporte_productos.csv"); // Genera en la carpeta raíz
-            System.out.println("Reportes generados exitosamente.");
+
+            System.out.println("Archivos generados y reportes creados exitosamente.");
         } catch (IOException e) {
             System.err.println("Error procesando archivos: " + e.getMessage());
         }
     }
 
-    private static Map<Long, Vendedor> leerVendedores(String filename) throws IOException {
+    private static Map<Long, Vendedor> leerVendedoresDesdeCSV(String filename) throws IOException {
         Map<Long, Vendedor> vendedores = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
+            boolean primeraLinea = true; // Para saltar la cabecera
             while ((line = reader.readLine()) != null) {
+                if (primeraLinea) {
+                    primeraLinea = false;
+                    continue; // Saltar la cabecera
+                }
                 String[] parts = line.split(";");
-                long id = Long.parseLong(parts[1]);
-                vendedores.put(id, new Vendedor(parts[2], parts[3]));
+                long id = Long.parseLong(parts[1]); // NúmeroDocumento
+                String nombres = parts[2];
+                String apellidos = parts[3];
+                vendedores.put(id, new Vendedor(nombres, apellidos));
             }
         }
         return vendedores;
     }
 
-    private static Map<Integer, Producto> leerProductos(String filename) throws IOException {
+    private static Map<Integer, Producto> leerProductosDesdeCSV(String filename) throws IOException {
         Map<Integer, Producto> productos = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
+            boolean primeraLinea = true; // Para saltar la cabecera
             while ((line = reader.readLine()) != null) {
+                if (primeraLinea) {
+                    primeraLinea = false;
+                    continue; // Saltar la cabecera
+                }
                 String[] parts = line.split(";");
-                int id = Integer.parseInt(parts[0]);
-                productos.put(id, new Producto(parts[1], Double.parseDouble(parts[2])));
+                int id = Integer.parseInt(parts[0]); // ID
+                String nombre = parts[1];
+                double precio = Double.parseDouble(parts[2]);
+                productos.put(id, new Producto(nombre, precio));
             }
         }
         return productos;
+    }
+
+    private static void generarArchivosDeVentas(Map<Long, Vendedor> vendedores, Map<Integer, Producto> productos) throws IOException {
+        Random random = new Random();
+        for (Map.Entry<Long, Vendedor> entry : vendedores.entrySet()) {
+            long idVendedor = entry.getKey();
+            try (FileWriter writer = new FileWriter("../salesman_" + idVendedor + ".txt")) { // Genera en la carpeta raíz
+                // Escribir información del vendedor
+                writer.write("CC;" + idVendedor + "\n");
+
+                // Generar ventas aleatorias
+                for (int i = 0; i < 10; i++) { // 10 ventas por vendedor
+                    int idProducto = random.nextInt(productos.size()) + 1;
+                    int cantidad = random.nextInt(10) + 1; // Cantidad entre 1 y 10
+                    writer.write(idProducto + ";" + cantidad + ";\n");
+                }
+            }
+        }
     }
 
     private static void procesarVentas(Map<Long, Vendedor> vendedores, Map<Integer, Producto> productos) throws IOException {
