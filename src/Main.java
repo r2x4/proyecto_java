@@ -5,11 +5,11 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Map<Long, Vendedor> vendedores = leerVendedores("salesman_info.txt");
-            Map<Integer, Producto> productos = leerProductos("products.txt");
+            Map<Long, Vendedor> vendedores = leerVendedores("../salesman_info.txt"); // Busca en la carpeta raíz
+            Map<Integer, Producto> productos = leerProductos("../products.txt"); // Busca en la carpeta raíz
             procesarVentas(vendedores, productos);
-            generarReporteVendedores(vendedores, "reporte_vendedores.csv");
-            generarReporteProductos(productos, "reporte_productos.csv");
+            generarReporteVendedores(vendedores, "../reporte_vendedores.csv"); // Genera en la carpeta raíz
+            generarReporteProductos(productos, "../reporte_productos.csv"); // Genera en la carpeta raíz
             System.out.println("Reportes generados exitosamente.");
         } catch (IOException e) {
             System.err.println("Error procesando archivos: " + e.getMessage());
@@ -43,7 +43,7 @@ public class Main {
     }
 
     private static void procesarVentas(Map<Long, Vendedor> vendedores, Map<Integer, Producto> productos) throws IOException {
-        File folder = new File(".");
+        File folder = new File(".."); // Busca en la carpeta raíz
         File[] files = folder.listFiles((_, name) -> name.startsWith("salesman_") && name.endsWith(".txt"));
         if (files != null) {
             for (File file : files) {

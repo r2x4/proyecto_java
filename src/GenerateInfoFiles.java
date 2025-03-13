@@ -22,7 +22,7 @@ public class GenerateInfoFiles {
     }
 
     public static void createSalesMenFile(int randomSalesCount, String name, long id) throws IOException {
-        try (FileWriter writer = new FileWriter("salesman_" + id + ".txt")) {
+        try (FileWriter writer = new FileWriter("../salesman_" + id + ".txt")) { // Genera en la carpeta raíz
             Random random = new Random();
             for (int i = 0; i < randomSalesCount; i++) {
                 int productId = random.nextInt(5) + 1;
@@ -34,7 +34,7 @@ public class GenerateInfoFiles {
     }
 
     public static void createProductsFile(int productsCount) throws IOException {
-        try (FileWriter writer = new FileWriter("products.txt")) {
+        try (FileWriter writer = new FileWriter("../products.txt")) { // Genera en la carpeta raíz
             Random random = new Random();
             for (int i = 1; i <= productsCount; i++) {
                 String productName = PRODUCTOS[i - 1];
@@ -45,7 +45,7 @@ public class GenerateInfoFiles {
     }
 
     public static void createSalesManInfoFile(int salesmanCount) throws IOException {
-        try (FileWriter writer = new FileWriter("salesman_info.txt")) {
+        try (FileWriter writer = new FileWriter("../salesman_info.txt")) { // Genera en la carpeta raíz
             Random random = new Random();
             for (int i = 0; i < salesmanCount; i++) {
                 String nombre = NOMBRES[random.nextInt(NOMBRES.length)];

@@ -1,5 +1,0 @@
-CC;1000;Luisa;Lopez
-CC;1001;Carlos;Garcia
-CC;1002;Maria;Gomez
-CC;1003;Pedro;Rodriguez
-CC;1004;Maria;Martinez
