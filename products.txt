@@ -1,5 +1,5 @@
-1;Lapiz;2472.0
-2;Cuaderno;4976.0
-3;Borrador;1343.0
-4;Regla;1181.0
-5;Tijeras;3644.0
+1;Lapiz;1194.0
+2;Cuaderno;2127.0
+3;Borrador;1029.0
+4;Regla;4404.0
+5;Tijeras;4336.0
